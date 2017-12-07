@@ -1,0 +1,314 @@
+# Web基础
+
+## 基础信息
+
+###### 时间：2017年12月7日
+###### 作者：Super
+###### 主题：初级div页面布局
+
+## 整体布局
+
+### 创建3个div标签
+
+```html
+<div class="pg-header"></div>
+<div class="pg-body"></div>
+<div class="pg-footer"></div>
+```
+
+* 给三个div设置height
+
+```css
+.pg-header{
+  height: 38px;
+  background-color: darkgrey;
+}
+.pg-body{
+  height: 500px;
+  background-color: lightyellow;
+}
+.pg-footer{
+  height: 100px;
+  background-color: wheat;
+}
+```
+
+* 发现三个div与body间存在空隙，对于***设置整体去除margin和padding***
+
+```css
+*{
+  margin:0px;
+  padding:0px;
+}
+```
+
+
+
+### 设置一个内容div
+
+* 由于需要保持文本都在一起，故先在pg-header、pg-body、pg-footer都下设置一个div
+```html
+<div class="w"></div>
+```
+- 给w设置宽度、边距
+```css
+w{
+  width:980px;
+  margin:0 auto;
+}
+```
+
+
+
+#### 在pg-header中的w下创建3个div：logo、menu、user
+
+```html
+<div class="logo"></div>
+<div class="menu"></div>
+<div class="user"></div>
+```
+
+##### pg-header# 设置logo标签
+
+```html
+<div class="logo">
+	<img src="//www.baidu.com/img/baidu_jgylogo3.gif">
+</div>
+```
+```css
+.pg-header .logo{
+  height:38px;	/*这里是logo的高*/
+  float:left;
+}
+```
+##### pg-header# 设置menu标签
+
+```html
+<div class="menu">
+<ul>
+	<li><a href="//www.baidu.com" target="_Blank">百度</a></li>
+	<li><a href="//www.alibaba.com" target="_Blank">阿里</a></li>
+	<li><a href="//www.qq.com" target="_Blank">腾讯</a></li>
+	<li><a href="//www.jingdong.com" target="_Blank">京东</a></li>
+</ul>
+</div>
+```
+* 对于无序列表去除实心圆和水平排列
+
+```css
+ul{
+  list-style:none;	/*去除实心圆*/
+}	
+ul li{
+  float:left	/*水平排列*/
+}	
+```
+
+- 对于a标签去除下划线和间隔、文字居中
+
+```css
+a{
+  text-decoration:none;
+}
+.pg-header .menu ul li a{
+  padding:0 20px;
+  line-height:38px;	/*当小div的line-height和大div的height相等时，文本内容会居中*/
+}
+```
+
+##### pg-header# 设置user标签
+
+```html
+<div class="user">
+	<ul>
+		<li><input type="button" value="登陆"></li>
+		<li><input type="button" value="注册"></li>
+		<li><input type="text"></li>
+		<li><input type="button" value="搜索"></li>
+	</ul>
+</div>
+```
+
+- 设置li标签的间距
+
+```css
+.pg-header user ul lu{
+  padding:0 10px;
+  line-hegiht:38px;
+}
+```
+
+
+
+#### 在pg-body中的w下创建2个div：content-left、content-right
+
+```html
+<div class="content-left">
+  我是左边
+</div>
+<div class="content-right">
+  我是右边
+</div>
+```
+
+- 设置content-left和content-right的浮动、高度
+
+```css
+.pg-body .content-left{
+  float: left;
+  height: auto;
+  width: 800px;
+  background-color: green;
+}
+.pg-body .content-right{
+  float: left;
+  height: auto;
+  width: 180px;
+  background-color: rebeccapurple;
+}
+```
+
+
+
+#### 在pg-footer中的w下设置content
+
+```html
+<div class="pg-footer">
+  <div class="w">
+    <div class="content">
+      AAA
+    </div>
+  </div>
+</div>
+```
+
+- 设置content的属性高度
+
+```css
+.pg-footer .content{
+  height:20px;
+}
+```
+
+- 此处会出现pg-footer直接在pg-header下面
+
+  - 这时需要在pg-body中最后再加一个div，来清除浮动
+
+  ```html
+  <div class="content-left">...</div>
+  <div class="content-right">...</div>
+  <!--利用这个div来清除浮动-->
+  <div style="clear:both;"></div>
+  ```
+
+  ​
+
+## 整体代码
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0; /*可以去除pg-header和body在最上层产生的空行*/
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        ul li{
+            float: left;
+        }
+        a{
+            text-decoration: none;
+        }
+        .w{
+            width: 980px;
+            margin: 0 auto; /*可使w内容自适应宽度*/
+        }
+        .pg-header{
+            height: 38px;
+            background-color: yellow;
+        }
+        .pg-header .logo{
+            float: left;
+            height: 38px; /*系统为42px？*/
+        }
+        .pg-header .menu ul li a{
+            color: black;
+            padding: 0 20px;
+            line-height: 38px;
+        }
+        .pg-header .search ul li{
+            padding: 0 10px;
+            line-height: 38px;
+        }
+        .pg-body .content-left{
+            float: left;
+            height: auto;
+            width: 800px;
+            background-color: green;
+            clear: both;
+
+        }
+        .pg-body .content-right{
+            float: left;
+            height: auto;
+            width: 180px;
+            background-color: rebeccapurple;
+        }
+        .pg-footer {
+            background-color: darksalmon;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="pg-header">
+        <div class="w">
+            <div class="logo">
+                <img src="//www.baidu.com/img/baidu_jgylogo3.gif">
+            </div>
+            <div class="menu">
+                <ul>
+                    <li><a href="//www.baidu.com">百度</a></li>
+                    <li><a href="//www.alibaba.com">阿里</a></li>
+                    <li><a href="//www.qq.com">腾讯</a></li>
+                    <li><a href="//www.jingdong.com">京东</a></li>
+                </ul>
+            </div>
+            <div class="search">
+                <ul>
+                    <li><input type="button" value="登陆"></li>
+                    <li><input type="button" value="注册"></li>
+                    <li><input type="text"></li>
+                    <li><input type="button" value="搜索"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="pg-body">
+        <div class="w">
+            <div class="content-left">
+                左侧
+            </div>
+            <div class="content-right">
+                右侧
+            </div>
+
+            <!--设置这个可以使div前后左右都没有浮动对象-->
+            <!--这样可以使pg-footer不会抵在pg-header下面-->
+            <div style="clear: both"></div>
+        </div>
+    </div>
+    <div class="pg-footer">
+        <div class="w">
+        </div>
+    </div>
+</body>
+</html>
+```
+
